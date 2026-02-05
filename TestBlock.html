@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testimonial Card</title>
+    <style>
+        /* 1. PAGE SETUP (Centers the card in the iframe) */
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent; /* Lets Adobe background show through if iframe is transparent */
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* 2. CARD SCENE */
+        .card-scene {
+            width: 100%;
+            max-width: 600px;
+            height: fit-content;
+            perspective: 1000px;
+        }
+
+        /* 3. FLIPPER ENGINE */
+        .card-flipper {
+            display: grid;
+            grid-template-columns: 1fr;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .card-flipper.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* 4. FACES SHARED */
+        .card-face {
+            grid-area: 1 / 1;
+            width: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: white;
+            overflow: hidden;
+        }
+
+        /* 5. FRONT FACE (LinkedIn) */
+        .card-front {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 25px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .li-container { width: 100%; text-align: left; }
+        .li-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+        .li-avatar img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+        .li-meta { flex: 1; }
+        .li-name { margin: 0; font-size: 16px; font-weight: bold; color: #333; }
+        .li-headline { margin: 2px 0 0 0; font-size: 12px; color: #666; font-weight: normal; }
+        .li-date { margin: 2px 0 0 0; font-size: 11px; color: #888; font-weight: normal; }
+        .li-logo { color: #0a66c2; font-weight: 700; font-size: 20px; }
+        .li-body p { margin: 0; font-size: 14px; line-height: 1.5; color: #444; }
+
+        /* 6. BACK FACE (Project) */
+        .card-back {
+            transform: rotateY(180deg);
+            padding: 0;
+            position: relative;
+            background: black;
+            display: block;
+            height: 100%;
+        }
+
+        .full-bleed-link {
+            display: block;
+            width: 100%;
+            height: 100%; /* Fills the card height */
+            min-height: 300px; /* Safety height */
+            text-decoration: none;
+            position: relative;
+            color: white;
+        }
+
+        .bg-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .full-bleed-link:hover .bg-image { transform: scale(1.05); }
+
+        .overlay-content {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; box-sizing: border-box;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            text-align: left; transform: translateY(5px); transition: transform 0.3s ease;
+        }
+        .full-bleed-link:hover .overlay-content { transform: translateY(0); }
+        .poster-title { margin: 0; font-size: 1.2rem; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .poster-sub { margin: 5px 0 0 0; font-size: 0.9rem; color: #ddd; }
+
+        .return-btn {
+            position: absolute; top: 15px; right: 15px; z-index: 10;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white; font-size: 18px; cursor: pointer;
+            backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
+            padding-bottom: 3px; transition: all 0.2s ease;
+        }
+        .return-btn:hover { background: white; color: black; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div class="card-scene">
+        <div class="card-flipper" id="card1">
+            
+            <div class="card-face card-front">
+                <div class="li-container">
+                    <div class="li-header">
+                        <div class="li-avatar">
+                             <img src="https://media.licdn.com/dms/image/v2/D4E03AQGVbWOnTtB9iA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1674612269937?e=1772064000&v=beta&t=i1Fc7QeXO6JIGEOGWi6aOIWCXVEzGWzVKSoxCCJ2ecw" alt="Profile">
+                        </div>
+                        <div class="li-meta">
+                            <h3 class="li-name">Margaret DiMaria</h3>
+                            <h4 class="li-headline">Instructional Design Coordinator</h4>
+                            <h5 class="li-date">May 13, 2020</h5>
+                        </div>
+                        <div class="li-logo">in</div>
+                    </div>
+                    <div class="li-body">
+                        <p>"Drew did an amazing job as the videographer intern for the instructional design team at OSU's College of Public Health... He's professional, innovative and just an all around great team-player."</p>
+                    </div>
+                </div>
+                <span style="margin-top: 15px; display: block; font-size: 0.8rem; color: #888; text-align: center;">Click to see the project</span>
+            </div>
+
+            <div class="card-face card-back">
+                <button class="return-btn" id="returnBtn1">&#8617;</button>
+                
+                <a href="https://google.com" target="_blank" class="full-bleed-link">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/ESC_large_ISS008_ISS008-E-5604_Trinity_test_site_marked.jpg" alt="Project Thumbnail" class="bg-image">
+                    <div class="overlay-content">
+                        <h3 class="poster-title">OSU Public Health</h3>
+                        <p class="poster-sub">Watch the Full Series ↗</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const card = document.getElementById('card1');
+        const returnBtn = document.getElementById('returnBtn1');
+
+        card.addEventListener('click', function(e) {
+            if (e.target.closest('a')) return; // Don't flip if clicking the link
+            this.classList.toggle('is-flipped');
+        });
+
+        returnBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            card.classList.remove('is-flipped');
+        });
+    </script>
+</body>
+</html>
